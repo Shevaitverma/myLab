@@ -1,0 +1,81 @@
+// matplot library usage ....
+import pandas as pd
+
+df = pd.read_excel("C:/Users/sheva/Desktop/myLab/excel-comp-data.xlsx")
+df.head()
+
+df["total"] = df["Jan"] + df["Feb"] + df["Mar"]
+df.head()
+
+import matplotlib.pyplot as plt
+
+df['total'].plot(kind="hist")
+plt.xlabel("X axis label")
+plt.ylabel("Y axis label")
+plt.title("Histogram Plot")
+plt.show()
+
+df['total'].plot()
+plt.show()
+
+category_data = df["account"]
+total_data = df["total"]
+plt.pie(total_data, labels=category_data, autopct='%1.1f%%')
+plt.title("% of total sales of each account")
+plt.show()
+
+
+\\sentiment analysis...
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+nltk.download('vader_lexicon')
+
+texts = ["I love working with Python!", 
+         "The weather is terrible today.",
+         "This movie is absolutely amazing!",
+         "I don't like this restaurant at all."]
+analyzer = SentimentIntensityAnalyzer()
+
+for text in texts:
+    sentiment = analyzer.polarity_scores(text)
+    print("Text: ", text)
+    print("Sentiment Score: ", sentiment['compound'])
+    print("\n")
+
+
+// image processing ... 
+import cv2
+
+# read image
+img = cv2.imread("C:/Users/sheva/Desktop/image.jpg")
+
+# check if image is loaded correctly
+if img is None:
+    print("Error: Could not read image")
+else:
+    # convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # apply image processing tasks here...
+
+# convert to grayscale
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# apply Gaussian blur
+blur = cv2.GaussianBlur(gray, (5, 5), 0)
+
+# apply Canny edge detection
+edges = cv2.Canny(blur, 50, 150)
+
+# find contours
+contours, hierarchy = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# draw contours on original image
+cv2.drawContours(img, contours, -1, (0, 255, 0), 2)
+
+# display results
+cv2.imshow('grayscale', gray)
+cv2.imshow('Original Image', img)
+cv2.imshow('Canny Edges', edges)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
